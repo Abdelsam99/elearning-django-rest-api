@@ -53,7 +53,8 @@ class Course(models.Model):
         return self.title
     
     def save(self, *args, **kwargs ):
-        self.slug=slugify(self.title)
+        if self.slug:
+            self.slug=slugify(self.title)
         super().save(*args, **kwargs)
     
 class Lesson(models.Model):
@@ -62,7 +63,6 @@ class Lesson(models.Model):
     video=models.FileField(upload_to='lessonvideos/', validators=[FileExtensionValidator(allowed_extensions=['mp4', 'avi', 'mov', 'mkv'])])
     duration=models.DurationField(null=True, blank=True)
     filePdf=models.FileField(upload_to="lessonFile/", null=True, blank=True)
-    categoryId=models.ForeignKey(Categorie, on_delete=models.CASCADE)
     courseID=models.ForeignKey(Course, on_delete=models.CASCADE)
 
     class Meta:
@@ -71,16 +71,17 @@ class Lesson(models.Model):
     def __str__(self):
         return self.name
     
-    def save(self, *args, **kwargs ):
-        self.slug=slugify(self.name)
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs ):
+    #     self.slug=slugify(self.name)
+    #     super().save(*args, **kwargs)
 
-@receiver(pre_save, sender=Lesson)
-def calculate_duration(sender, instance, **kwargs):
-    if not instance.duration:
-        with VideoFileClip(instance.video) as video:
-            duration = int(video.duration // 60)
-            instance.duration=duration
+# @receiver(pre_save, sender=Lesson)
+# def calculate_duration(sender, instance, **kwargs):
+#     if not instance.duration:
+#         with VideoFileClip(instance.video.path) as video:
+#             duration = int(video.duration // 60)
+#             instance.duration=duration
+
 
 class Notice(models.Model):
     opinion=models.TextField(null=True, blank=True)
