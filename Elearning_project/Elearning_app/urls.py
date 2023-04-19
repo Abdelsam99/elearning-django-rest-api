@@ -15,8 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-# from .views import ProductListView
+
+from django.conf import settings
+from django.conf.urls.static import static
+from .views import AnswerNoticeListView, CategorieListView, CourseCategoryView, CourseListView, LessonCourseView, LessonListView, NoticeListView
 
 urlpatterns = [
-    # path('elearning/', ProductListView.as_view()),
+    path('elearning/categorie/list/', CategorieListView.as_view()),
+    path('elearning/course/list/', CourseListView.as_view()),
+    path('elearning/lesson/list/', LessonListView.as_view()),
+    path('elearning/courseCategorie/<int:category_id>/', CourseCategoryView.as_view()),
+    path('elearning/LessonCourse/<int:course_id>/', LessonCourseView.as_view()),
+    path('elearning/notice/list/', NoticeListView.as_view()),
+    path('elearning/answerNotice/list/', AnswerNoticeListView.as_view()),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT)
