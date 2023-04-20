@@ -18,10 +18,12 @@ from django.urls import path
 
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import AnswerNoticeListView, CategorieListView, CourseCategoryView, CourseListView, LessonCourseView, LessonListView, NoticeListView
+from .views import AnswerNoticeListView, CategorieDetailView, CategorieListView, CategorieUpdateView, CourseCategoryView, CourseListView, LessonCourseView, LessonListView, NoticeListView
 
 urlpatterns = [
     path('elearning/categorie/list/', CategorieListView.as_view()),
+    path('elearning/categorie/<int:pk>/', CategorieDetailView.as_view()),
+    path('elearning/categorie/<int:pk>/update', CategorieUpdateView.as_view()),
     path('elearning/course/list/', CourseListView.as_view()),
     path('elearning/lesson/list/', LessonListView.as_view()),
     path('elearning/courseCategorie/<int:category_id>/', CourseCategoryView.as_view()),

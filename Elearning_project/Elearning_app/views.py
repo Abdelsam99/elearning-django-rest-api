@@ -51,7 +51,10 @@ class LessonCourseView(APIView):
         course = Lesson.objects.filter(courseID=course_id)
         serializer=LessonSerializer(course, many=True)
         return Response(serializer.data)
-
+    
+class CategorieDetailView(generics.RetrieveAPIView):
+    queryset = Categorie.objects.all()
+    serializer_class=CategorieSerializer
 # class CourseCategoryView(generics.RetrieveAPIView):
 #     serializer_class=CourseSerializer
 #     queryset = Course.objects.all()
@@ -61,3 +64,14 @@ class LessonCourseView(APIView):
 #         category_id= self.kwargs.get('category_id')
 #         course=self.get_queryset().filter(categoryId=category_id)
 #         return course
+
+
+    """Cette classe est pour la modification d'une Categorie"""
+class CategorieUpdateView(generics.UpdateAPIView):
+    queryset = Categorie.objects.all()
+    serializer_class=CategorieSerializer
+    
+    """Cette classe est pour la suppression d'une Categorie"""
+class CategorieDeleteView(generics.DestroyAPIView):
+    queryset = Categorie.objects.all()
+    serializer_class=CategorieSerializer
